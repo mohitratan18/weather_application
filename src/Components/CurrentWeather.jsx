@@ -31,7 +31,7 @@ const CurrentWeather = () => {
     try {
       setloading(true);
       const { data } = await axios.get(
-        `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${api}`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${api}`
       );
       setloading(false);
       setcity("");
