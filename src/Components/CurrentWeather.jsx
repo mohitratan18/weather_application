@@ -26,18 +26,17 @@ const CurrentWeather = () => {
     getweather();
   }, []);
 
-  const getweather = async (e) => {
-    e?.preventDefault();
+  const getweather = async (item) => {
     try {
       setloading(true);
       const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${api}`
+        `https://api.openweathermap.org/data/2.5/forecast?q=${item ?? city}&units=metric&appid=${api}`
       );
       setloading(false);
       setcity("");
       setthreehours(data.list);
       const dummy = {
-        name: city ?? "",
+        name: item ?? city ?? "",
         temp: data.list[0].main.temp,
         rain: Math.round(data.list[0].pop * 100),
         icon: data.list[0].weather[0].icon,
@@ -95,8 +94,8 @@ const CurrentWeather = () => {
                 } else {
                   setalert(true);
                   setTimeout(() => {
-                    setalert(false)
-                  },1200);
+                    setalert(false);
+                  }, 1200);
                   alert("Please enter valid city");
                 }
                 input.current.blur();
@@ -130,7 +129,15 @@ const CurrentWeather = () => {
                   key={index}
                   className="flex flex-row justify-between p-2 gap-2"
                 >
-                  <p>{item}</p>
+                  <button
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setcity(item);
+                      getweather(item);
+                    }}
+                  >
+                    {item}
+                  </button>
                   <button onClick={() => deleteitem(item)}>X</button>
                 </div>
               );
